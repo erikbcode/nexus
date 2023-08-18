@@ -1,12 +1,9 @@
-import { SignIn } from "@clerk/nextjs/app-beta";
-import React from "react";
+import { SignIn } from '@clerk/nextjs';
 
-const page = () => {
+export default function Page() {
   return (
-    <div>
-      <SignIn />
+    <div className="flex justify-center items-center mt-32">
+      <SignIn path="/sign-in" redirectUrl="/" />
     </div>
   );
-};
-
-export default page;
+}
