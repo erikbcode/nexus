@@ -2,7 +2,7 @@
 import { Button } from '@/components/ui/Button';
 import { toast } from '@/components/ui/use-toast';
 import { CreateSubnexusPayload } from '@/lib/validators/subnexus';
-import { Input } from '@nextui-org/react';
+import { Input } from '@/components/ui/Input';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
@@ -80,20 +80,9 @@ const Page = () => {
         <div className="space-y-2">
           <p className="text-xl font-semibold">Name</p>
           <p className="text-sm pb-2">Community names including capitalization cannot be changed.</p>
-          <div className="relative text-base">
-            <Input
-              value={input}
-              size="md"
-              startContent={
-                <div className="pointer-events-none flex items-center text-center">
-                  <span className="text-default-400 text-base">n/</span>
-                </div>
-              }
-              classNames={{
-                input: ['text-gray-800 text-base'],
-              }}
-              onChange={(e) => setInput(e.target.value)}
-            />
+          <div className="relative">
+            <p className="absolute text-sm left-0 w-8 inset-y-0 grid place-items-center text-zinc-400">n/</p>
+            <Input value={input} onChange={(e) => setInput(e.target.value)} className="pl-6" />
           </div>
         </div>
 
