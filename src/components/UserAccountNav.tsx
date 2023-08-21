@@ -21,8 +21,8 @@ const UserAccountNav = ({ user }: UserAccountNavProps) => {
   const router = useRouter();
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
-        <Avatar>
+      <DropdownMenuTrigger className="outline-none">
+        <Avatar className="hover:border border-zinc-100">
           <AvatarImage src={user.image!} alt="userimage" />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
