@@ -23,13 +23,13 @@ function ThemeSwitcher() {
 
   return (
     <button
-      className={`w-8 h-8 rounded-full flex items-center justify-center bg-zinc-200 hover:bg-zinc-300 dark:bg-base-800 dark:hover:bg-base-700`}
+      className={`w-12 h-12 rounded-full flex items-center justify-center bg-zinc-200 hover:bg-zinc-300 dark:bg-base-800 dark:hover:bg-base-700`}
       onClick={toggleTheme}
     >
       {theme === 'light' ? (
-        <MoonIcon className={`text-zinc-700 w-6 h-6`} />
+        <MoonIcon className={`text-zinc-700 w-8 h-8`} />
       ) : (
-        <SunIcon className={`text-zinc-200 w-6 h-6`} />
+        <SunIcon className={`text-zinc-200 w-8 h-8`} />
       )}
     </button>
   );
