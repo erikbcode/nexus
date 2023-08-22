@@ -1,9 +1,6 @@
 'use client';
-import React, { useState } from 'react';
-import { Textarea } from '@/components/ui/Textarea';
-import { Avatar, AvatarFallback, AvatarImage } from './ui/Avatar';
+import React from 'react';
 import { Session } from 'next-auth';
-import Image from 'next/image';
 import UserAvatar from './ui/UserAvatar';
 import { Input } from './ui/Input';
 import { usePathname, useRouter } from 'next/navigation';
