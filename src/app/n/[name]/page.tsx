@@ -27,7 +27,7 @@ const Page = async ({ params }: SubnexusPageProps) => {
         select: {
           id: true,
           title: true,
-          text: true,
+          content: true,
           image: true,
           author: {
             select: {
@@ -49,7 +49,7 @@ const Page = async ({ params }: SubnexusPageProps) => {
   }
 
   return (
-    <div className="mr-10">
+    <div className="">
       <CreatePostForm session={session} />
       {/* <InfinitePostList initialPosts={} /> */}
     </div>
