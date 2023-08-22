@@ -6,7 +6,7 @@ import Navbar from '@/components/Navbar';
 import { Toaster } from '@/components/ui/Toaster';
 import { cn } from '@/lib/utils';
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
 export const metadata: Metadata = {
   title: 'Nexus',
@@ -15,11 +15,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children, authModal }: { children: React.ReactNode; authModal: React.ReactNode }) {
   return (
-    <html
-      lang="en"
-      className={cn('bg-white text-slate-900 antialiased light', inter.className)}
-      suppressHydrationWarning={true}
-    >
+    <html lang="en" className={cn('text-slate-900 antialiased light', inter.className)} suppressHydrationWarning={true}>
       <body className="min-h-screen pt-12 antialiased">
         <Providers>
           <Navbar />
