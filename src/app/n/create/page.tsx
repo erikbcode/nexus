@@ -1,11 +1,12 @@
 'use client';
 import { Button } from '@/components/ui/Button';
-import { toast } from '@/components/ui/use-toast';
+import { toast } from '@/hooks/use-toast';
 import { CreateSubnexusPayload } from '@/lib/validators/subnexus';
 import { Input } from '@/components/ui/Input';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
+import { authToast } from '@/hooks/use-custom-toasts';
 
 const Page = () => {
   const router = useRouter();
@@ -42,11 +43,7 @@ const Page = () => {
       }
 
       if (err.status === 401) {
-        return toast({
-          title: 'Login required.',
-          description: 'You need to be logged in to do that.',
-          variant: 'destructive',
-        });
+        return authToast();
       }
 
       if (err.status === 400) {
