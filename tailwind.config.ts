@@ -90,7 +90,7 @@ module.exports = {
       },
     },
     fontFamily: {
-      sans: ['Inter', ...defaultTheme.fontFamily.sans],
+      sans: ['var(--font-inter)', ...fontFamily.sans],
     },
   },
 };
