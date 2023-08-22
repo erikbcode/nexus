@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Button } from './ui/Button';
 import { signIn } from 'next-auth/react';
 import Image from 'next/image';
-import { useToast } from './ui/use-toast';
+import { useToast } from '../hooks/use-toast';
 
 const AuthForm = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
