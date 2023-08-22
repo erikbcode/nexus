@@ -2,10 +2,10 @@
 import React, { startTransition } from 'react';
 import { Button } from './ui/Button';
 import { useMutation } from '@tanstack/react-query';
-import { NextResponse } from 'next/server';
 import { SubscribeToSubnexusPayload } from '@/lib/validators/subnexus';
-import { toast } from './ui/use-toast';
+import { toast } from '../hooks/use-toast';
 import { useRouter } from 'next/navigation';
+import { authToast } from '@/hooks/use-custom-toasts';
 
 interface JoinCommunityToggleProps {
   subnexusId: string;
@@ -39,11 +39,7 @@ const JoinCommunityToggle = ({ subnexusId, subnexusName, isMember }: JoinCommuni
     },
     onError: (err: Response) => {
       if (err.status === 401) {
-        return toast({
-          title: 'Login required.',
-          description: 'You need to be logged in to do that.',
-          variant: 'destructive',
-        });
+        return authToast();
       }
       if (err.status === 400) {
         return toast({
@@ -92,11 +88,7 @@ const JoinCommunityToggle = ({ subnexusId, subnexusName, isMember }: JoinCommuni
     },
     onError: (err: Response) => {
       if (err.status === 401) {
-        return toast({
-          title: 'Login required.',
-          description: 'You need to be logged in to do that.',
-          variant: 'destructive',
-        });
+        return authToast();
       }
       if (err.status === 400) {
         return toast({
@@ -123,11 +115,11 @@ const JoinCommunityToggle = ({ subnexusId, subnexusName, isMember }: JoinCommuni
   });
 
   return isMember ? (
-    <Button onClick={() => leaveCommunity()} disabled={isLeaveLoading}>
+    <Button className="w-full" onClick={() => leaveCommunity()} disabled={isLeaveLoading}>
       Leave Community
     </Button>
   ) : (
-    <Button onClick={() => joinCommunity()} disabled={isJoinLoading}>
+    <Button className="w-full" onClick={() => joinCommunity()} disabled={isJoinLoading}>
       Join Community
     </Button>
   );
