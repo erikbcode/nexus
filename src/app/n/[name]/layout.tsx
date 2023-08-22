@@ -31,7 +31,7 @@ const Layout = async ({ children, params }: SubnexusLayoutProps) => {
         select: {
           id: true,
           title: true,
-          text: true,
+          content: true,
           image: true,
           author: {
             select: {
@@ -76,9 +76,9 @@ const Layout = async ({ children, params }: SubnexusLayoutProps) => {
   return (
     <div className="container">
       <h1 className="text-3xl md:text-4xl font-semibold mb-10">n/{subnexus.name}</h1>
-      <div className="grid grid-cols-1 md:grid-cols-3">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div className="col-span-2 w-full">{children}</div>
-        <div className="order-first md:order-last rounded-md border border-zinc-200">
+        <div className="order-first md:order-last rounded-md border border-zinc-200 h-fit">
           <div className="bg-zinc-200 flex gap-2 items-center px-6 py-4">
             <h2 className="text-base font-semibold">About n/{subnexus.name}</h2>
           </div>
@@ -91,14 +91,16 @@ const Layout = async ({ children, params }: SubnexusLayoutProps) => {
               <p>Members</p>
               <p className="text-zinc-800">{subscriberCount}</p>
             </div>
-            <hr></hr>
-            <>
+            <hr className="bg-gray-200 font-black h-px"></hr>
+            <div className="py-4 w-full">
               {subnexus.creatorId === session?.user.id ? (
-                <Button disabled>You own this community</Button>
+                <Button className="w-full" disabled>
+                  You own this community
+                </Button>
               ) : (
                 <JoinCommunityToggle subnexusName={subnexus.name} subnexusId={subnexus.id} isMember={isSubscribed} />
               )}
-            </>
+            </div>
           </div>
         </div>
       </div>
