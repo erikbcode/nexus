@@ -11,7 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/DropdownMenu';
-import { Avatar, AvatarFallback, AvatarImage } from './ui/Avatar';
+import UserAvatar from './ui/UserAvatar';
 
 interface UserAccountNavProps {
   user: Pick<User, 'id' | 'name' | 'image'>;
@@ -22,10 +22,7 @@ const UserAccountNav = ({ user }: UserAccountNavProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="outline-none">
-        <Avatar className="hover:border border-zinc-100">
-          <AvatarImage src={user.image!} alt="userimage" />
-          <AvatarFallback>CN</AvatarFallback>
-        </Avatar>
+        <UserAvatar user={{ name: user.name!, image: user.image! }} />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
         <DropdownMenuLabel>Signed in as {user.name}</DropdownMenuLabel>
