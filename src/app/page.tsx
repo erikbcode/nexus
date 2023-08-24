@@ -16,8 +16,8 @@ export default async function Home() {
         <div className="md:col-span-2">
           <GeneralPostList initialPosts={posts} />
         </div>
-        <div className="border border-zinc-200 h-fit rounded-md order-first md:order-last">
-          <div className="bg-emerald-100 flex gap-2 items-center px-6 py-4">
+        <div className="border overflow-hidden border-zinc-200 dark:border-zinc-800 h-fit rounded-md order-first md:order-last">
+          <div className="bg-emerald-200 dark:bg-emerald-600 flex gap-2 items-center px-6 py-4">
             <HomeIcon height="20" width="20" />
             <h2 className="font-semibold text-lg">Home</h2>
           </div>

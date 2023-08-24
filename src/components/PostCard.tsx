@@ -23,7 +23,7 @@ const PostCard = ({ id, content, createdAt, title, author, subnexus }: Post) => 
       {/* Author and Subnexus*/}
       {/* Wide Screen */}
       <div className="hidden sm:flex items-center mb-2 text-zinc-500">
-        <Link href={`/n/${subnexus.name}`} className="text-zinc-800 underline-offset-3 underline">
+        <Link href={`/n/${subnexus.name}`} className="text-zinc-800 dark:text-white underline-offset-3 underline">
           /n/{subnexus.name}
         </Link>
         <span className="mx-2">•</span>
@@ -37,7 +37,7 @@ const PostCard = ({ id, content, createdAt, title, author, subnexus }: Post) => 
       </div>
       {/* Small Screen */}
       <div className="flex gap-0 sm:hidden mb-2 text-zinc-500">
-        <Link href={`/n/${subnexus.name}`} className="text-zinc-800 underline-offset-3 underline">
+        <Link href={`/n/${subnexus.name}`} className="text-zinc-800 dark:text-white underline-offset-3 underline">
           /n/{subnexus.name}
         </Link>
         <span className="mx-2">•</span>
