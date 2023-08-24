@@ -74,11 +74,13 @@ const Layout = async ({ children, params }: SubnexusLayoutProps) => {
   }
 
   return (
-    <div className="container">
-      <h1 className="text-3xl md:text-4xl font-semibold mb-10">n/{subnexus.name}</h1>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div className="mobileContainer sm:container ">
+      <h1 className="text-3xl md:text-4xl font-semibold mb-8 flex items-center justify-center sm:justify-start">
+        n/{subnexus.name}
+      </h1>
+      <div className="grid grid-cols-1 md:grid-cols-3 md:gap-8 w-full">
         <div className="col-span-2 w-full">{children}</div>
-        <div className="order-first md:order-last rounded-md border border-zinc-200 h-fit">
+        <div className="order-first mb-8 md:mb-0 md:order-last rounded-md border h-fit w-full">
           <div className="bg-zinc-200 flex gap-2 items-center px-6 py-4">
             <h2 className="text-base font-semibold">About n/{subnexus.name}</h2>
           </div>
