@@ -24,8 +24,6 @@ const Editor = ({ subnexusName }: EditorProps) => {
   const handleMutation = async () => {
     const res = await createCommunityPost({ data: { title, content, subnexusName } });
     router.refresh();
-    console.log('res', res);
-    console.log('res status', res.status);
     const variant = res.status === 200 ? 'default' : 'destructive';
     if (res.status === 200) {
       router.push(`/n/${subnexusName}`);

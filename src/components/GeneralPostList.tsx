@@ -30,7 +30,6 @@ const GeneralPostList = ({ initialPosts }: GeneralPostListProps) => {
   const [ref, inView] = useInView();
   const [isLoading, setIsLoading] = useState(false);
   const [hasMorePosts, setHasMorePosts] = useState(true);
-  console.log(hasMorePosts);
 
   async function loadMorePosts() {
     const next = page + 1;
