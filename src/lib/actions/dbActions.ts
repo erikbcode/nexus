@@ -1,13 +1,14 @@
 'use server';
+import {
+  CreateCommunityPostOptions,
+  FetchCommunityPostsOptions,
+  FetchDefaultPostsOptions,
+} from '@/types/actions/actions';
 import { getAuthSession } from '../auth';
 import { prisma } from '../db';
 import { postTake } from '../globals';
 import { PostValidator } from '../validators/post';
-
-interface FetchCommunityPostsOptions {
-  subnexusName: string;
-  page?: number;
-}
+import { z } from 'zod';
 
 export async function fetchCommunityPosts({ page = 0, subnexusName }: FetchCommunityPostsOptions) {
   const posts = await prisma.post.findMany({
@@ -44,10 +45,6 @@ export async function fetchCommunityPosts({ page = 0, subnexusName }: FetchCommu
   return posts;
 }
 
-interface FetchDefaultPostsOptions {
-  page?: number;
-}
-
 export async function fetchDefaultPosts({ page = 0 }: FetchDefaultPostsOptions) {
   const posts = await prisma.post.findMany({
     select: {
@@ -76,14 +73,6 @@ export async function fetchDefaultPosts({ page = 0 }: FetchDefaultPostsOptions) 
   });
 
   return posts;
-}
-
-interface CreateCommunityPostOptions {
-  data: {
-    title: string;
-    content: string;
-    subnexusName: string;
-  };
 }
 
 export async function createCommunityPost({ data }: CreateCommunityPostOptions) {
@@ -127,8 +116,17 @@ export async function createCommunityPost({ data }: CreateCommunityPostOptions) 
       data: { title: 'New post created.', description: `Successfully posted to n/${subnexusName}` },
     };
   } catch (e) {
+    if (e instanceof z.ZodError) {
+      return {
+        status: 400,
+        data: {
+          title: 'Invalid post contents.',
+          description: 'Please enter a title between 3 and 21 characters, and content between 3 and 500 characters.',
+        },
+      };
+    }
     return {
-      status: 400,
+      status: 403,
       data: { title: 'Error when creating the post.', description: 'Please try again later.' },
     };
   }
