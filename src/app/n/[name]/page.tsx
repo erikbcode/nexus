@@ -1,9 +1,10 @@
 import { prisma } from '@/lib/db';
-import { TrackPreviousIcon } from '@radix-ui/react-icons';
 import React from 'react';
 import { notFound } from 'next/navigation';
 import CreatePostForm from '@/components/CreatePostForm';
 import { getAuthSession } from '@/lib/auth';
+import { fetchCommunityPosts } from '@/lib/actions/dbActions';
+import SubnexusPostList from '@/components/SubnexusPostList';
 
 interface SubnexusPageProps {
   params: {
@@ -34,6 +35,11 @@ const Page = async ({ params }: SubnexusPageProps) => {
               username: true,
             },
           },
+          subnexus: {
+            select: {
+              name: true,
+            },
+          },
           comments: true,
           votes: true,
         },
@@ -44,14 +50,18 @@ const Page = async ({ params }: SubnexusPageProps) => {
     },
   });
 
+  const posts = await fetchCommunityPosts({ subnexusName: params.name });
+
   if (!subnexus) {
     return notFound();
   }
 
   return (
-    <div className="">
+    <div className="flex gap-8 flex-col">
       <CreatePostForm session={session} />
-      {/* <InfinitePostList initialPosts={} /> */}
+      <ul role="list" className="grid grid-cols-1 gap-y-8">
+        <SubnexusPostList communityName={params.name} initialPosts={posts} />
+      </ul>
     </div>
   );
 };
