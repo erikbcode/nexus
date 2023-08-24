@@ -11,7 +11,7 @@ export default async function Home() {
     <div className="container">
       <h1 className="text-3xl md:text-4xl w-full font-bold mb-8">Your feed</h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="border border-zinc-200 md:col-span-2">
+        <div className="md:col-span-2">
           <GeneralPostList initialPosts={posts} />
         </div>
         <div className="border border-zinc-200 h-fit rounded-md order-first md:order-last">
