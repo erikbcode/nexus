@@ -1,17 +1,19 @@
-'use client';
-
+import GeneralPostList from '@/components/GeneralPostList';
 import { buttonVariants } from '@/components/ui/Button';
+import { fetchDefaultPosts } from '@/lib/actions/dbActions';
 import { HomeIcon } from '@heroicons/react/20/solid';
-//import { HomeIcon } from 'lucide-react';
-import Image from 'next/image';
 import Link from 'next/link';
 
-export default function Home() {
+export default async function Home() {
+  const posts = await fetchDefaultPosts({});
+
   return (
     <div className="container">
       <h1 className="text-3xl md:text-4xl w-full font-bold mb-8">Your feed</h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="border border-zinc-200 md:col-span-2">Test</div>
+        <div className="border border-zinc-200 md:col-span-2">
+          <GeneralPostList initialPosts={posts} />
+        </div>
         <div className="border border-zinc-200 h-fit rounded-md order-first md:order-last">
           <div className="bg-emerald-100 flex gap-2 items-center px-6 py-4">
             <HomeIcon height="20" width="20" />
