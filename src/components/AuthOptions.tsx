@@ -6,7 +6,7 @@ import { signIn } from 'next-auth/react';
 import Image from 'next/image';
 import { useToast } from '../hooks/use-toast';
 
-const AuthForm = () => {
+const AuthOptions = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { toast } = useToast();
 
@@ -40,4 +40,4 @@ const AuthForm = () => {
   );
 };
 
-export default AuthForm;
+export default AuthOptions;
