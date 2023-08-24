@@ -18,6 +18,10 @@ module.exports = {
         '2xl': '1400px',
       },
     },
+    mobileContainer: {
+      center: true,
+      padding: '0rem',
+    },
     extend: {
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
