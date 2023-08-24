@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { startTransition, useState } from 'react';
 import { Label } from './ui/Label';
 import { Input } from './ui/Input';
 import { Textarea } from './ui/Textarea';
@@ -9,6 +9,8 @@ import { CreatePostPayload } from '@/lib/validators/post';
 import { toast } from '../hooks/use-toast';
 import { authToast } from '@/hooks/use-custom-toasts';
 import { useRouter } from 'next/navigation';
+import { revalidatePath } from 'next/cache';
+import { createCommunityPost } from '@/lib/actions/dbActions';
 
 interface EditorProps {
   subnexusName: string;
@@ -19,62 +21,21 @@ const Editor = ({ subnexusName }: EditorProps) => {
   const [content, setContent] = useState('');
   const router = useRouter();
 
-  const { mutate: submitPost, isLoading } = useMutation({
-    mutationFn: async () => {
-      const payload: CreatePostPayload = {
-        title,
-        content,
-        subnexusName,
-      };
-
-      const response = await fetch('/api/subnexus/post/create', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          title,
-          content,
-          subnexusName,
-        }),
-      });
-
-      if (!response.ok) {
-        throw response;
-      }
-
-      const data = await response.json();
-      return data.id as string;
-    },
-    onError: (err: Response) => {
-      if (err.status === 401) {
-        return authToast();
-      }
-      if (err.status === 404) {
-        return toast({
-          title: 'Subnexus does not exist.',
-          description: 'Please post to an existing subnexus.',
-          variant: 'destructive',
-        });
-      }
-      if (err.status === 400) {
-        return toast({
-          title: 'Invalid post content.',
-          description:
-            'Please enter a valid title between 3 and 21 characters, and content between 3 and 500 characters.',
-          variant: 'destructive',
-        });
-      }
-      toast({
-        title: 'There was an error.',
-        description: 'Could not create post. Please try again later.',
-        variant: 'destructive',
-      });
-    },
-    onSuccess: () => {
+  const handleMutation = async () => {
+    const res = await createCommunityPost({ data: { title, content, subnexusName } });
+    router.refresh();
+    console.log('res', res);
+    console.log('res status', res.status);
+    const variant = res.status === 200 ? 'default' : 'destructive';
+    if (res.status === 200) {
       router.push(`/n/${subnexusName}`);
-    },
-  });
+    }
+    return toast({
+      title: res.data.title,
+      description: res.data.description,
+      variant,
+    });
+  };
 
   return (
     <div className="flex flex-col gap-8">
@@ -86,7 +47,7 @@ const Editor = ({ subnexusName }: EditorProps) => {
         <Label className="text-xl">Post Content</Label>
         <Textarea placeholder="Content" onChange={(e) => setContent(e.target.value)} />
       </div>
-      <Button className="w-fit" onClick={() => submitPost()}>
+      <Button className="w-fit" onClick={() => handleMutation()}>
         Submit Post
       </Button>
     </div>
