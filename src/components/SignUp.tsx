@@ -1,5 +1,5 @@
 import React from 'react';
-import AuthForm from './AuthForm';
+import AuthOptions from './AuthOptions';
 import Link from 'next/link';
 
 const SignUp = () => {
@@ -11,7 +11,7 @@ const SignUp = () => {
         <div className="text-md max-w-xs mx-auto">
           By continuing, you are setting up a Nexus account agree to our User Agreement and Privacy Policy.
         </div>
-        <AuthForm />
+        <AuthOptions />
         <p>
           Already have an account?{' '}
           <Link className="underline underline-offset-4" href="/sign-in">
