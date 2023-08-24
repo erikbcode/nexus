@@ -8,8 +8,10 @@ export default async function Home() {
   const posts = await fetchDefaultPosts({});
 
   return (
-    <div className="container">
-      <h1 className="text-3xl md:text-4xl w-full font-bold mb-8">Your feed</h1>
+    <div className="mobileContainer sm:container">
+      <h1 className="text-3xl md:text-4xl w-full font-bold mb-8 flex items-center justify-center sm:justify-start">
+        Your feed
+      </h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="md:col-span-2">
           <GeneralPostList initialPosts={posts} />
