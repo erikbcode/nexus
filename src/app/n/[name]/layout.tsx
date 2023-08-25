@@ -80,8 +80,8 @@ const Layout = async ({ children, params }: SubnexusLayoutProps) => {
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-3 md:gap-8 w-full">
         <div className="col-span-2 w-full">{children}</div>
-        <div className="order-first mb-8 md:mb-0 md:order-last rounded-md border h-fit w-full">
-          <div className="bg-zinc-200 flex gap-2 items-center px-6 py-4">
+        <div className="overflow-hidden order-first mb-8 md:mb-0 md:order-last rounded-md border h-fit w-full">
+          <div className="bg-zinc-200 dark:bg-zinc-600 flex gap-2 items-center px-6 py-4">
             <h2 className="text-base font-semibold">About n/{subnexus.name}</h2>
           </div>
           <div className="flex flex-col justify-between gap-4 px-6 py-4 text-zinc-400">
