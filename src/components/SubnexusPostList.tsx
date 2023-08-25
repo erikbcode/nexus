@@ -69,7 +69,7 @@ const SubnexusPostList = ({ communityName, initialPosts }: SubnexusPostListProps
       {hasMorePosts && (
         <div
           ref={ref}
-          className="col-span-1 mt-16 flex items-center justify-center sm:col-span-2 md:col-span-3 lg:col-span-4"
+          className="col-span-1 mt-16 flex items-center justify-center sm:col-span-2 md:col-span-3 lg:col-span-4 h-16"
         >
           <svg
             aria-hidden="true"
