@@ -15,14 +15,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children, authModal }: { children: React.ReactNode; authModal: React.ReactNode }) {
   return (
-    <html
-      lang="en"
-      className={cn(
-        'text-slate-900 antialiased light  scrollbar-thin scrollbar-track-black overflow-y-scroll',
-        inter.className,
-      )}
-      suppressHydrationWarning={true}
-    >
+    <html lang="en" className={cn('text-slate-900 antialiased', inter.className)} suppressHydrationWarning={true}>
       <body className="min-h-screen pt-12 antialiased">
         <Providers>
           <Navbar />
