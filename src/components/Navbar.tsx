@@ -15,7 +15,6 @@ const Navbar = async () => {
         </Link>
         <div className="text-lg text-zinc-700 dark:text-zinc-200">Search Bar</div>
         <div className="flex flex-row gap-4 items-center">
-          <ThemeSwitcher />
           {session ? (
             <>
               {' '}
