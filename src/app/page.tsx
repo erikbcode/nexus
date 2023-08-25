@@ -9,7 +9,7 @@ export default async function Home() {
 
   return (
     <div className="mobileContainer sm:container">
-      <h1 className="text-3xl md:text-4xl w-full font-bold mb-8 flex items-center justify-center sm:justify-start">
+      <h1 className="text-3xl md:text-4xl w-full font-semibold mb-8 flex items-center justify-center sm:justify-start">
         Your feed
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
