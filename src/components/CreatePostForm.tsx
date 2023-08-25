@@ -15,13 +15,13 @@ const CreatePostForm = ({ session }: CreatePostFormProps) => {
   const router = useRouter();
   const pathname = usePathname();
   return (
-    <div className="w-full shadow bg-white rounded-md py-6 px-4 flex flex-row gap-2 items-center">
+    <div className="w-full shadow bg-white dark:bg-zinc-900 dark:border-zinc-800 dark:border rounded-md py-6 px-4 flex flex-row gap-2 items-center">
       <UserAvatar user={{ name: session?.user.name!, image: session?.user.image! }} />
       <Input className="text-base h-10" onClick={() => router.push(`${pathname}/submit`)} placeholder="Create post" />
       <Button variant="ghost" onClick={() => router.push(`${pathname}/submit`)}>
-        <ImageIcon />
+        <ImageIcon className="dark:text-white" />
       </Button>
-      <Button variant="ghost" onClick={() => router.push(`${pathname}/submit`)}>
+      <Button variant="ghost" className="dark:text-white" onClick={() => router.push(`${pathname}/submit`)}>
         <LinkIcon />
       </Button>
     </div>
