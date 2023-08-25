@@ -53,7 +53,7 @@ const PostCard = ({ id, content, createdAt, title, author, subnexus }: Post) => 
       <h2 className="text-xl font-semibold mb-2">{title}</h2>
 
       {/* Content */}
-      <p className="text-lg text-gray-700">{content}</p>
+      <p className="text-lg text-gray-700 dark:text-zinc-400">{content}</p>
     </div>
   );
 };
