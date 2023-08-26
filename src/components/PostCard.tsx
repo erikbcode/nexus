@@ -113,10 +113,15 @@ const VoteDisplay = ({ initialVoteCount, initialVote, postId }: VoteDisplayProps
     });
   };
 
+  // Tailwind css classnames for upvote and downvote
   const upvoteClass =
-    currentVote === VoteType.UP ? 'text-emerald-500 fill-emerald-500 group-hover:fill-none' : 'dark:text-white';
+    currentVote === VoteType.UP
+      ? 'text-emerald-500 fill-emerald-500 group-hover:fill-none'
+      : 'group-hover:text-emerald-500 dark:text-white';
   const downvoteClass =
-    currentVote === VoteType.DOWN ? 'text-rose-500 fill-rose-500 group-hover:fill-none' : 'dark:text-white';
+    currentVote === VoteType.DOWN
+      ? 'text-rose-500 fill-rose-500 group-hover:fill-none'
+      : 'group-hover:text-rose-500 dark:text-white';
 
   return (
     <>
