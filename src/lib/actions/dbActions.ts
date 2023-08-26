@@ -158,6 +158,7 @@ export async function createCommunityPost({ data }: CreateCommunityPostOptions) 
       },
     });
 
+    revalidatePath('/n/[name]');
     return {
       status: 200,
       data: { title: 'New post created.', description: `Successfully posted to n/${subnexusName}` },
@@ -236,6 +237,7 @@ export async function updateVote({ data }: UpdateVoteOptions) {
 
         const updateCount = voteType === VoteType.UP ? -1 : 1;
         revalidatePath('/');
+        revalidatePath('/n/[name]');
         return {
           status: 200,
           data: { title: 'Success.', description: 'Vote removed.', newVoteType: undefined, updateCount },
@@ -256,6 +258,7 @@ export async function updateVote({ data }: UpdateVoteOptions) {
 
         const updateCount = voteType === VoteType.UP ? 2 : -2;
         revalidatePath('/');
+        revalidatePath('/n/[name]');
         return {
           status: 200,
           data: { title: 'Success.', description: 'Vote registered.', newVoteType: voteType, updateCount },
@@ -274,12 +277,12 @@ export async function updateVote({ data }: UpdateVoteOptions) {
 
     const updateCount = voteType === VoteType.UP ? 1 : -1;
     revalidatePath('/');
+    revalidatePath('/n/[name]');
     return {
       status: 200,
       data: { title: 'Success.', description: 'Vote registered', newVoteType: voteType, updateCount },
     };
   } catch (e) {
-    console.log(e);
     if (e instanceof z.ZodError) {
       return {
         status: 400,
