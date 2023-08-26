@@ -4,6 +4,7 @@ import {
   FetchCommunityPostsOptions,
   FetchDefaultPostsOptions,
   UpdateVoteOptions,
+  UpdateVoteResponse,
 } from '@/types/actions/actions';
 import { getAuthSession } from '../auth';
 import { prisma } from '../db';
@@ -199,6 +200,7 @@ export async function updateVote({ data }: UpdateVoteOptions) {
       },
     });
 
+    // Check if post exists and if it doesn't, return an error
     const post = await prisma.post.findUnique({
       where: {
         id: postId,
@@ -233,13 +235,12 @@ export async function updateVote({ data }: UpdateVoteOptions) {
         });
 
         const updateCount = voteType === VoteType.UP ? -1 : 1;
-        revalidateTag('prisma-votes');
         return {
           status: 200,
           data: { title: 'Success.', description: 'Vote removed.', newVoteType: undefined, updateCount },
         };
       } else {
-        // Vote is a different type, so update it
+        // Vote is of a different type so update it and corresonding count
         await prisma.vote.update({
           where: {
             userId_postId: {
@@ -254,7 +255,6 @@ export async function updateVote({ data }: UpdateVoteOptions) {
 
         const updateCount = voteType === VoteType.UP ? 2 : -2;
 
-        revalidateTag(`prisma-votes`);
         return {
           status: 200,
           data: { title: 'Success.', description: 'Vote registered.', newVoteType: voteType, updateCount },
@@ -272,7 +272,6 @@ export async function updateVote({ data }: UpdateVoteOptions) {
     });
 
     const updateCount = voteType === VoteType.UP ? 1 : -1;
-    revalidateTag('prisma-votes');
     return {
       status: 200,
       data: { title: 'Success.', description: 'Vote registered', newVoteType: voteType, updateCount },
