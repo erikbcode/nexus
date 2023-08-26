@@ -1,15 +1,11 @@
 'use client';
-import React, { startTransition, useState } from 'react';
+import React, { useState } from 'react';
 import { Label } from './ui/Label';
 import { Input } from './ui/Input';
 import { Textarea } from './ui/Textarea';
 import { Button } from './ui/Button';
-import { useMutation } from '@tanstack/react-query';
-import { CreatePostPayload } from '@/lib/validators/post';
 import { toast } from '../hooks/use-toast';
-import { authToast } from '@/hooks/use-custom-toasts';
 import { useRouter } from 'next/navigation';
-import { revalidatePath } from 'next/cache';
 import { createCommunityPost } from '@/lib/actions/dbActions';
 
 interface EditorProps {
