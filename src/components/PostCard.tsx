@@ -1,14 +1,12 @@
 'use client';
 import { timeSince } from '@/lib/utils';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { ArrowBigUp, ArrowBigDown } from 'lucide-react';
 import { Button } from './ui/Button';
 import { VoteType } from '@prisma/client';
 import { updateVote } from '@/lib/actions/dbActions';
 import { toast } from '@/hooks/use-toast';
-import { UpdateVoteResponse } from '@/types/actions/actions';
-import { useRouter } from 'next/navigation';
 
 type Post = {
   id: string;
@@ -89,21 +87,15 @@ const VoteDisplay = ({ initialVoteCount, initialVote, postId }: VoteDisplayProps
     const res = await updateVote({ data: { voteType, postId } });
     const variant = res.status === 200 ? 'default' : 'destructive';
     if (res.status !== 200) {
-      // Vote was not successful, so don't change
+      // Vote was not successful, so don't change state
       return toast({
         title: res.data.title,
         description: res.data.description,
         variant,
       });
     }
-
     // Vote was successful, so update state
-    if (res.data.newVoteType === undefined) {
-      setCurrentVote(null);
-    } else {
-      res.data.newVoteType === VoteType.UP ? setCurrentVote(VoteType.UP) : setCurrentVote(VoteType.DOWN);
-    }
-
+    setCurrentVote(res.data.newVoteType);
     setVoteCount(voteCount + res.data.updateCount!);
 
     return toast({
