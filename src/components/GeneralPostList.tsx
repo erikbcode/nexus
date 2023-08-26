@@ -4,12 +4,15 @@ import { fetchDefaultPosts } from '@/lib/actions/dbActions';
 import PostCard from './PostCard';
 import { useInView } from 'react-intersection-observer';
 import { postTake } from '@/lib/globals';
+import { Vote, VoteType } from '@prisma/client';
 
 type Post = {
   title: string;
   content: string;
   id: string;
   createdAt: Date;
+  voteCount: number;
+  currentUserVote: VoteType | null;
   subnexus: {
     name: string;
   };
@@ -61,7 +64,7 @@ const GeneralPostList = ({ initialPosts }: GeneralPostListProps) => {
   return (
     <div className="flex flex-col gap-4 w-full">
       {posts.map((post) => {
-        return <PostCard key={post.id} {...post} />;
+        return <PostCard initialVote={post.currentUserVote} key={post.id} {...post} />;
       })}
       {/* loading spinner */}
 
