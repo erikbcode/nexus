@@ -4,12 +4,15 @@ import { fetchCommunityPosts } from '@/lib/actions/dbActions';
 import PostCard from './PostCard';
 import { useInView } from 'react-intersection-observer';
 import { postTake } from '@/lib/globals';
+import { VoteType } from '@prisma/client';
 
 type Post = {
   title: string;
   content: string;
   id: string;
   createdAt: Date;
+  voteCount: number;
+  currentUserVote: VoteType | null;
   subnexus: {
     name: string;
   };
@@ -62,7 +65,7 @@ const SubnexusPostList = ({ communityName, initialPosts }: SubnexusPostListProps
   return (
     <div className="flex flex-col gap-4 w-full">
       {posts.map((post) => {
-        return <PostCard key={post.id} {...post} />;
+        return <PostCard key={post.id} initialVote={post.currentUserVote} {...post} />;
       })}
       {/* loading spinner */}
 
