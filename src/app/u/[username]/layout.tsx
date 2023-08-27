@@ -41,9 +41,11 @@ const Layout = async ({ children, params }: UserProfileLayoutProps) => {
       <div className="grid grid-cols-1 md:grid-cols-3 md:gap-8">
         <div className="col-span-2">{children}</div>
         <div className="order-first md:order-last overflow-hidden mb-8 md:mb-0 rounded-md border h-fit">
-          <div className="flex flex-col gap-2 items-center justify-center px-6 py-4 bg-sky-200 dark:bg-indigo-400">
+          <div className="flex flex-col gap-2 items-center justify-center px-6 py-4 bg-gradient-to-br from-blue-500 to-indigo-400">
             <UserAvatar user={user} large />
-            <h2 className="text-xl font-semibold text-zinc-800">{`${username}'s`} Profile</h2>
+            <h2 className="text-xl font-semibold bg-white dark:bg-zinc-800 px-3 py-1 rounded-md text-zinc-800 dark:text-zinc-300">
+              {`${username}'s`} Profile
+            </h2>
           </div>
 
           <div className="flex flex-col gap-4 px-6 py-4 text-zinc-500">
