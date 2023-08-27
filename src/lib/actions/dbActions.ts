@@ -3,6 +3,7 @@ import {
   CreateCommunityPostOptions,
   FetchCommunityPostsOptions,
   FetchDefaultPostsOptions,
+  FetchUserPostsOptions,
   UpdateVoteOptions,
   UpdateVoteResponse,
 } from '@/types/actions/actions';
@@ -21,6 +22,61 @@ export async function fetchCommunityPosts({ page = 0, subnexusName }: FetchCommu
     where: {
       subnexus: {
         name: subnexusName,
+      },
+    },
+    select: {
+      title: true,
+      content: true,
+      id: true,
+      createdAt: true,
+      votes: true,
+      subnexus: {
+        select: {
+          name: true,
+        },
+      },
+      author: {
+        select: {
+          id: true,
+          username: true,
+          image: true,
+        },
+      },
+    },
+    orderBy: {
+      createdAt: 'desc',
+    },
+    skip: page * postTake,
+    take: postTake,
+  });
+
+  const postsWithVoteCount = posts.map((post) => {
+    let voteCount = 0;
+    let currentUserVote = null;
+
+    post.votes.forEach((vote) => {
+      voteCount += vote.type === 'UP' ? 1 : -1;
+      if (session && vote.userId === session.user.id) {
+        currentUserVote = vote.type;
+      }
+    });
+
+    return {
+      ...post,
+      voteCount,
+      currentUserVote,
+    };
+  });
+
+  return postsWithVoteCount;
+}
+
+export async function fetchUserPosts({ page = 0, username }: FetchUserPostsOptions) {
+  const session = await getAuthSession();
+  const posts = await prisma.post.findMany({
+    where: {
+      author: {
+        username,
       },
     },
     select: {
@@ -238,6 +294,7 @@ export async function updateVote({ data }: UpdateVoteOptions) {
         const updateCount = voteType === VoteType.UP ? -1 : 1;
         revalidatePath('/');
         revalidatePath('/n/[name]');
+        revalidatePath('/u/[username]');
         return {
           status: 200,
           data: { title: 'Success.', description: 'Vote removed.', newVoteType: undefined, updateCount },
@@ -259,6 +316,7 @@ export async function updateVote({ data }: UpdateVoteOptions) {
         const updateCount = voteType === VoteType.UP ? 2 : -2;
         revalidatePath('/');
         revalidatePath('/n/[name]');
+        revalidatePath('/u/[username]');
         return {
           status: 200,
           data: { title: 'Success.', description: 'Vote registered.', newVoteType: voteType, updateCount },
@@ -278,6 +336,7 @@ export async function updateVote({ data }: UpdateVoteOptions) {
     const updateCount = voteType === VoteType.UP ? 1 : -1;
     revalidatePath('/');
     revalidatePath('/n/[name]');
+    revalidatePath('/u/[username]');
     return {
       status: 200,
       data: { title: 'Success.', description: 'Vote registered', newVoteType: voteType, updateCount },

@@ -4,6 +4,11 @@ export interface FetchDefaultPostsOptions {
   page?: number;
 }
 
+export interface FetchUserPostsOptions {
+  page?: number;
+  username: string;
+}
+
 export interface FetchCommunityPostsOptions {
   subnexusName: string;
   page?: number;
