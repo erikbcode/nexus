@@ -19,7 +19,11 @@ const Navbar = async () => {
             <>
               {' '}
               <UserAccountNav
-                user={{ id: session.user.id, name: session.user.name || null, image: session.user.image || null }}
+                user={{
+                  id: session.user.id,
+                  username: session.user.username || null,
+                  image: session.user.image || null,
+                }}
               />
             </>
           ) : (

@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { User } from 'next-auth';
+import { User } from '@prisma/client';
 import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import {
@@ -20,7 +20,7 @@ import { useTheme } from 'next-themes';
 import { MoonIcon, SunIcon } from 'lucide-react';
 
 interface UserAccountNavProps {
-  user: Pick<User, 'id' | 'name' | 'image'>;
+  user: Pick<User, 'id' | 'username' | 'image'>;
 }
 
 const UserAccountNav = ({ user }: UserAccountNavProps) => {
@@ -30,10 +30,10 @@ const UserAccountNav = ({ user }: UserAccountNavProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="outline-none">
-        <UserAvatar user={{ name: user.name!, image: user.image! }} />
+        <UserAvatar user={{ username: user.username!, image: user.image! }} />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel>Signed in as {user.name}</DropdownMenuLabel>
+        <DropdownMenuLabel>Signed in as {`${user.username!}`}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => router.push(`/user/${user.id}`)}>Profile</DropdownMenuItem>
         <DropdownMenuSeparator />
