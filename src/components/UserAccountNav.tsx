@@ -29,7 +29,7 @@ const UserAccountNav = ({ user }: UserAccountNavProps) => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="outline-none">
+      <DropdownMenuTrigger className="outline-none rounded-full border-4 border-zinc-100 dark:border-zinc-900 hover:border-zinc-400 dark:hover:border-zinc-500">
         <UserAvatar user={{ username: user.username!, image: user.image! }} />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
