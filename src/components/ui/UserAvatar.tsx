@@ -4,13 +4,18 @@ import React from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from './Avatar';
 
 interface UserAvatarProps {
-  user: Pick<User, 'name' | 'image'>;
+  user: Pick<User, 'username' | 'image'>;
+  large?: boolean;
+  small?: boolean;
 }
 
-const UserAvatar = ({ user }: UserAvatarProps) => {
+const UserAvatar = ({ user, large, small }: UserAvatarProps) => {
+  const username = user.username ? user.username : 'username';
+  const sizeClasses = large ? 'w-20 h-20' : small ? 'w-8 h-8' : 'w-12 h-12';
+
   return (
-    <Avatar>
-      <AvatarImage src={user.image!} alt="User" />
+    <Avatar className={sizeClasses}>
+      <AvatarImage src={user.image!} alt={username} />
       <AvatarFallback>
         <UserIcon />
       </AvatarFallback>
