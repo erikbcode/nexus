@@ -24,8 +24,8 @@ interface UserAccountNavProps {
 }
 
 const UserAccountNav = ({ user }: UserAccountNavProps) => {
+  const { setTheme } = useTheme();
   const router = useRouter();
-  const { theme, setTheme } = useTheme();
 
   return (
     <DropdownMenu>
@@ -50,6 +50,7 @@ const UserAccountNav = ({ user }: UserAccountNavProps) => {
             </DropdownMenuItem>
           </DropdownMenuSubContent>
         </DropdownMenuSub>
+        <DropdownMenuItem onClick={() => router.push(`/settings`)}>Settings</DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem className="focus:bg-red-400 focus:text-white" onClick={() => signOut()}>
           Log Out
