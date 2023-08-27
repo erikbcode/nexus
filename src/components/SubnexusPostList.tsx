@@ -32,7 +32,6 @@ const SubnexusPostList = ({ communityName, initialPosts }: SubnexusPostListProps
   const [posts, setPosts] = useState(initialPosts);
   const [page, setPage] = useState(0);
   const [ref, inView] = useInView();
-  const [isLoading, setIsLoading] = useState(false);
   const [hasMorePosts, setHasMorePosts] = useState(true);
 
   async function loadMorePosts() {
@@ -52,9 +51,7 @@ const SubnexusPostList = ({ communityName, initialPosts }: SubnexusPostListProps
   useEffect(() => {
     const fetchPosts = async () => {
       if (hasMorePosts) {
-        setIsLoading(true);
         await loadMorePosts();
-        setIsLoading(false);
       }
     };
     if (inView) {
@@ -67,8 +64,8 @@ const SubnexusPostList = ({ communityName, initialPosts }: SubnexusPostListProps
       {posts.map((post) => {
         return <PostCard key={post.id} initialVote={post.currentUserVote} {...post} />;
       })}
-      {/* loading spinner */}
 
+      {/* loading spinner */}
       {hasMorePosts && (
         <div
           ref={ref}
