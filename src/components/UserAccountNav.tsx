@@ -35,7 +35,7 @@ const UserAccountNav = ({ user }: UserAccountNavProps) => {
       <DropdownMenuContent className="w-56">
         <DropdownMenuLabel>Signed in as {`${user.username!}`}</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => router.push(`/user/${user.id}`)}>Profile</DropdownMenuItem>
+        <DropdownMenuItem onClick={() => router.push(`/u/${user.username}`)}>Profile</DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuSub>
           <DropdownMenuSubTrigger>Select Theme</DropdownMenuSubTrigger>
