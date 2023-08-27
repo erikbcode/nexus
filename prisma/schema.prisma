@@ -52,6 +52,7 @@ model User {
   username      String?   @unique
 
   // Non-Next Auth
+  createdAt         DateTime       @default(now())
   posts             Post[]
   votes             Vote[]
   comments          Comment[]
