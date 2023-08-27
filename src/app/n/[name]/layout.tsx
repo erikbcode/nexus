@@ -81,17 +81,17 @@ const Layout = async ({ children, params }: SubnexusLayoutProps) => {
       <div className="grid grid-cols-1 md:grid-cols-3 md:gap-8 w-full">
         <div className="col-span-2 w-full">{children}</div>
         <div className="overflow-hidden order-first mb-8 md:mb-0 md:order-last rounded-md border h-fit w-full">
-          <div className="bg-zinc-200 dark:bg-zinc-600 flex gap-2 items-center px-6 py-4">
+          <div className="bg-zinc-300 dark:bg-zinc-600 flex gap-2 items-center px-6 py-4">
             <h2 className="text-base font-semibold">About n/{subnexus.name}</h2>
           </div>
           <div className="flex flex-col justify-between gap-4 px-6 py-4 text-zinc-400">
             <div className="flex justify-between">
               <p>Created</p>
-              <p className="text-zinc-800">{subnexus.createdAt.toLocaleDateString()}</p>
+              <p className="text-zinc-800 dark:text-zinc-300">{subnexus.createdAt.toLocaleDateString()}</p>
             </div>
             <div className="flex justify-between">
               <p>Members</p>
-              <p className="text-zinc-800">{subscriberCount}</p>
+              <p className="text-zinc-800 dark:text-zinc-300">{subscriberCount}</p>
             </div>
             <hr className="bg-gray-200 font-black h-px"></hr>
             <div className="py-4 w-full">
