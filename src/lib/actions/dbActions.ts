@@ -225,7 +225,7 @@ export async function createCommunityPost({ data }: CreateCommunityPostOptions) 
         status: 400,
         data: {
           title: 'Invalid post contents.',
-          description: 'Please enter a title between 3 and 21 characters, and content between 3 and 500 characters.',
+          description: 'Please enter a title between 3 and 21 characters, and content between 3 and 191 characters.',
         },
       };
     }
