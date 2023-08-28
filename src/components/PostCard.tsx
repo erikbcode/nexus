@@ -27,45 +27,42 @@ type Post = {
 
 const PostCard = ({ id, content, createdAt, title, author, subnexus, voteCount, initialVote }: Post) => {
   return (
-    <div className="border rounded-lg p-4 hover:shadow-lg transition-shadow duration-200 shadow">
-      <div className="grid grid-cols-[min-content,1fr] items-center">
-        <VoteDisplay initialVoteCount={voteCount} initialVote={initialVote} postId={id} />
-        <div>
-          {/* Author and Subnexus*/}
-          {/* Wide Screen */}
-          <div className="hidden sm:flex items-center mb-2 text-zinc-500">
-            <Link href={`/n/${subnexus.name}`} className="text-zinc-800 dark:text-white underline-offset-3 underline">
-              /n/{subnexus.name}
-            </Link>
-            <span className="mx-2">•</span>
-            <span>Posted by</span>
+    <div className="border rounded-lg p-4 hover:shadow-lg transition-shadow duration-200 shadow flex flex-row items-center">
+      <VoteDisplay initialVoteCount={voteCount} initialVote={initialVote} postId={id} />
+      <div className="flex flex-col w-full min-w-0">
+        {/* Author and Subnexus*/}
+        {/* Wide Screen */}
+        <div className="hidden sm:flex items-center mb-2 text-zinc-500">
+          <Link href={`/n/${subnexus.name}`} className="text-zinc-800 dark:text-white underline-offset-3 underline">
+            /n/{subnexus.name}
+          </Link>
+          <span className="mx-2">•</span>
+          <span>Posted by</span>
+          <Link href={`/u/${author.username}`} className="ml-1  underline underline-offset-3">
+            /u/{author.username}
+          </Link>
+
+          <span className="mx-2">•</span>
+          <span>{timeSince(new Date(createdAt))}</span>
+        </div>
+        {/* Small Screen */}
+        <div className="flex gap-0 sm:hidden mb-2 text-zinc-500">
+          <Link href={`/n/${subnexus.name}`} className="text-zinc-800 dark:text-white underline-offset-3 underline">
+            /n/{subnexus.name}
+          </Link>
+          <span className="mx-2">•</span>
+          <div>
             <Link href={`/u/${author.username}`} className="ml-1  underline underline-offset-3">
               /u/{author.username}
             </Link>
-
-            <span className="mx-2">•</span>
-            <span>{timeSince(new Date(createdAt))}</span>
           </div>
-          {/* Small Screen */}
-          <div className="flex gap-0 sm:hidden mb-2 text-zinc-500">
-            <Link href={`/n/${subnexus.name}`} className="text-zinc-800 dark:text-white underline-offset-3 underline">
-              /n/{subnexus.name}
-            </Link>
-            <span className="mx-2">•</span>
-            <div>
-              <span>By</span>
-              <Link href={`/u/${author.username}`} className="ml-1  underline underline-offset-3">
-                /u/{author.username}
-              </Link>
-            </div>
-          </div>
-
-          {/* Title */}
-          <h2 className="text-xl font-semibold mb-2">{title}</h2>
-
-          {/* Content */}
-          <p className="text-lg text-gray-700 dark:text-zinc-400">{content}</p>
         </div>
+
+        {/* Title */}
+        <h2 className="text-xl font-semibold mb-2">{title}</h2>
+
+        {/* Content */}
+        <p className="break-words overflow-wrap text-lg text-gray-700 dark:text-zinc-400 overflow-wrap">{content}</p>
       </div>
     </div>
   );
@@ -117,7 +114,7 @@ const VoteDisplay = ({ initialVoteCount, initialVote, postId }: VoteDisplayProps
 
   return (
     <>
-      <div className="px-4 mx-2 flex flex-col justify-center items-center gap-3">
+      <div className="px-4 flex flex-col justify-center items-center gap-3">
         <Button variant="ghost" size="sm" className={`group`} onClick={() => handleVote(VoteType.UP)}>
           <ArrowBigUp className={`${upvoteClass}`} />
         </Button>
