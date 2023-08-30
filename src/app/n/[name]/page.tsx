@@ -3,8 +3,8 @@ import React from 'react';
 import { notFound } from 'next/navigation';
 import CreatePostForm from '@/components/CreatePostForm';
 import { getAuthSession } from '@/lib/auth';
-import { fetchCommunityPosts } from '@/lib/actions/dbActions';
-import SubnexusPostList from '@/components/SubnexusPostList';
+import { fetchCommunityPosts, getPosts } from '@/lib/actions/posts/actions';
+import InfinitePostFeed from '@/components/InfinitePostFeed';
 
 interface SubnexusPageProps {
   params: {
@@ -50,7 +50,7 @@ const Page = async ({ params }: SubnexusPageProps) => {
     },
   });
 
-  const posts = await fetchCommunityPosts({ subnexusName: params.name });
+  const posts = await getPosts({ communityName: params.name });
 
   if (!subnexus) {
     return notFound();
@@ -60,7 +60,7 @@ const Page = async ({ params }: SubnexusPageProps) => {
     <div className="flex gap-8 flex-col">
       <CreatePostForm session={session} />
       <ul role="list" className="grid grid-cols-1 gap-y-8">
-        <SubnexusPostList communityName={params.name} initialPosts={posts} />
+        <InfinitePostFeed initialPosts={posts} communityName={params.name} />
       </ul>
     </div>
   );
