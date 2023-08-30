@@ -1,10 +1,9 @@
 'use client';
 import { ClientPost } from '@/types/db';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { getPosts } from '@/lib/actions/posts/actions';
 import { INFINITE_SCROLL_POST_TAKE } from '@/lib/globals';
 import PostCard from './PostCard';
-import { nanoid } from 'nanoid';
 import { useInView } from 'react-intersection-observer';
 
 type InfinitePostFeedProps = {
