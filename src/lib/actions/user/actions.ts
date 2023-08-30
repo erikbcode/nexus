@@ -1,6 +1,7 @@
 'use server';
 import { getAuthSession } from '@/lib/auth';
 import { prisma } from '@/lib/db';
+import { revalidatePath } from 'next/cache';
 
 export const changeUsername = async (formData: FormData, userId: string) => {
   try {
@@ -56,6 +57,7 @@ export const changeUsername = async (formData: FormData, userId: string) => {
       },
     });
 
+    revalidatePath('/');
     return {
       status: 200,
       data: {
