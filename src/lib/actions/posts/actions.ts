@@ -1,11 +1,5 @@
 'use server';
-import {
-  CreateCommunityPostOptions,
-  FetchCommunityPostsOptions,
-  FetchDefaultPostsOptions,
-  FetchUserPostsOptions,
-  UpdateVoteOptions,
-} from '@/types/actions/actions';
+import { CreateCommunityPostOptions, UpdateVoteOptions } from '@/types/actions/actions';
 import { getAuthSession } from '@/lib/auth';
 import { prisma } from '@/lib/db';
 import { INFINITE_SCROLL_POST_TAKE } from '@/lib/globals';

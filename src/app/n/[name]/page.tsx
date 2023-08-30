@@ -3,7 +3,7 @@ import React from 'react';
 import { notFound } from 'next/navigation';
 import CreatePostForm from '@/components/CreatePostForm';
 import { getAuthSession } from '@/lib/auth';
-import { fetchCommunityPosts, getPosts } from '@/lib/actions/posts/actions';
+import { getPosts } from '@/lib/actions/posts/actions';
 import InfinitePostFeed from '@/components/InfinitePostFeed';
 
 interface SubnexusPageProps {
