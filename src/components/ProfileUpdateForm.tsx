@@ -6,6 +6,7 @@ import { Label } from './ui/Label';
 import { Button } from './ui/Button';
 import { toast } from '@/hooks/use-toast';
 import { changeUsername } from '@/lib/actions/user/actions';
+import { useRouter } from 'next/navigation';
 
 type ProfileUpdateFormProps = {
   currentUsername: string;
@@ -13,9 +14,16 @@ type ProfileUpdateFormProps = {
 };
 
 const ProfileUpdateForm = ({ currentUsername, userId }: ProfileUpdateFormProps) => {
+  const router = useRouter();
+
   async function clientAction(formData: FormData) {
     const res = await changeUsername(formData, userId);
     const variant = res.status !== 200 ? 'destructive' : 'default';
+    const newUsername = formData.get('username');
+
+    if (res.status === 200) {
+      router.push(`/u/${newUsername}`);
+    }
 
     return toast({
       title: res.data.title,
