@@ -5,7 +5,7 @@ import { Input } from './ui/Input';
 import { Label } from './ui/Label';
 import { Button } from './ui/Button';
 import { toast } from '@/hooks/use-toast';
-import { changeUsername } from '@/lib/actions/user/dbActions';
+import { changeUsername } from '@/lib/actions/user/actions';
 
 type ProfileUpdateFormProps = {
   currentUsername: string;
