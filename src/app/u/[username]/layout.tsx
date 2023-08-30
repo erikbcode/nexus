@@ -1,5 +1,6 @@
 import UserAvatar from '@/components/ui/UserAvatar';
 import { prisma } from '@/lib/db';
+import { notFound } from 'next/navigation';
 import React from 'react';
 
 type UserProfileLayoutProps = {
@@ -32,7 +33,7 @@ const Layout = async ({ children, params }: UserProfileLayoutProps) => {
   });
 
   if (!user) {
-    return <div>User not found</div>;
+    return notFound();
   }
 
   return (
