@@ -79,8 +79,10 @@ interface VoteDisplayProps {
 const VoteDisplay = ({ initialVoteCount, initialVote, postId }: VoteDisplayProps) => {
   const [voteCount, setVoteCount] = useState(initialVoteCount);
   const [currentVote, setCurrentVote] = useState(initialVote);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleVote = async (voteType: VoteType) => {
+    setIsLoading(true);
     const res = await updateVote({ data: { voteType, postId } });
     const variant = res.status === 200 ? 'default' : 'destructive';
     if (res.status !== 200) {
@@ -94,6 +96,7 @@ const VoteDisplay = ({ initialVoteCount, initialVote, postId }: VoteDisplayProps
     // Vote was successful, so update state
     setCurrentVote(res.data.newVoteType);
     setVoteCount(voteCount + res.data.updateCount!);
+    setIsLoading(false);
 
     return toast({
       title: res.data.title,
@@ -115,11 +118,23 @@ const VoteDisplay = ({ initialVoteCount, initialVote, postId }: VoteDisplayProps
   return (
     <>
       <div className="px-4 flex flex-col justify-center items-center gap-3">
-        <Button variant="ghost" size="sm" className={`group`} onClick={() => handleVote(VoteType.UP)}>
+        <Button
+          disabled={isLoading}
+          variant="ghost"
+          size="sm"
+          className={`group`}
+          onClick={() => handleVote(VoteType.UP)}
+        >
           <ArrowBigUp className={`${upvoteClass}`} />
         </Button>
         <p className="font-semibold">{voteCount}</p>
-        <Button variant="ghost" size="sm" className="dark:text-white group" onClick={() => handleVote(VoteType.DOWN)}>
+        <Button
+          disabled={isLoading}
+          variant="ghost"
+          size="sm"
+          className="dark:text-white group"
+          onClick={() => handleVote(VoteType.DOWN)}
+        >
           <ArrowBigDown className={`${downvoteClass}`} />
         </Button>
       </div>
