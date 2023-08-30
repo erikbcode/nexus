@@ -1,6 +1,5 @@
-import UserPostList from '@/components/UserPostList';
-import { fetchUserPosts } from '@/lib/actions/dbActions';
-import { prisma } from '@/lib/db';
+import InfinitePostFeed from '@/components/InfinitePostFeed';
+import { getPosts } from '@/lib/actions/posts/actions';
 import React from 'react';
 
 interface ProfilePageProps {
@@ -11,11 +10,11 @@ interface ProfilePageProps {
 const Page = async ({ params }: ProfilePageProps) => {
   const username = params.username;
 
-  const posts = await fetchUserPosts({ username });
+  const initialPosts = await getPosts({ username });
 
   return (
     <div>
-      <UserPostList initialPosts={posts} username={username} />
+      <InfinitePostFeed initialPosts={initialPosts} username={username} />
     </div>
   );
 };
