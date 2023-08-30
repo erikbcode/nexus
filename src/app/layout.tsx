@@ -16,11 +16,11 @@ export const metadata: Metadata = {
 export default function RootLayout({ children, authModal }: { children: React.ReactNode; authModal: React.ReactNode }) {
   return (
     <html lang="en" className={cn('text-slate-900 antialiased', inter.className)} suppressHydrationWarning={true}>
-      <body className="min-h-screen pt-12 antialiased">
+      <body className="min-h-screen antialiased pt-safe-top">
         <Providers>
           <Navbar />
           {authModal}
-          <div className="container max-w-full mx-auto h-full pt-12">{children}</div>
+          <div className="container max-w-full mx-auto h-full pt-24">{children}</div>
           <Toaster />
         </Providers>
       </body>
