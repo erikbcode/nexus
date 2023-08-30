@@ -20,7 +20,7 @@ const InfinitePostFeed = ({ initialPosts, username, communityName }: InfinitePos
 
   async function loadMorePosts() {
     const nextPage = page + 1;
-    const newPosts = await getPosts({ username, communityName, page: nextPage });
+    const { data: newPosts } = await getPosts({ username, communityName, page: nextPage });
     if (newPosts?.length) {
       setPage(nextPage);
       setPosts((oldPosts: ClientPost[] | undefined) => [...(oldPosts?.length ? oldPosts : []), ...newPosts]);

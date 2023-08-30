@@ -50,7 +50,7 @@ const Page = async ({ params }: SubnexusPageProps) => {
     },
   });
 
-  const posts = await getPosts({ communityName: params.name });
+  const { data: initialPosts } = await getPosts({ communityName: params.name });
 
   if (!subnexus) {
     return notFound();
@@ -60,7 +60,7 @@ const Page = async ({ params }: SubnexusPageProps) => {
     <div className="flex gap-8 flex-col">
       <CreatePostForm session={session} />
       <ul role="list" className="grid grid-cols-1 gap-y-8">
-        <InfinitePostFeed initialPosts={posts} communityName={params.name} />
+        <InfinitePostFeed initialPosts={initialPosts} communityName={params.name} />
       </ul>
     </div>
   );

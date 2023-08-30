@@ -10,7 +10,7 @@ interface ProfilePageProps {
 const Page = async ({ params }: ProfilePageProps) => {
   const username = params.username;
 
-  const initialPosts = await getPosts({ username });
+  const { data: initialPosts } = await getPosts({ username });
 
   return (
     <div>

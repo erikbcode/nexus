@@ -9,82 +9,95 @@ import { VoteValidator } from '@/lib/validators/vote';
 import { VoteType } from '@prisma/client';
 import { revalidatePath, revalidateTag } from 'next/cache';
 import { ClientPost } from '@/types/db';
+import { GetPostsResponse } from '@/types/actions/posts/action-types';
 
 type GetUserPostsOption = { username: string; page?: number };
 type GetCommunityPostsOption = { communityName: string; page?: number };
 type GetAllPostsOption = { page?: number };
 type GetPostsOptions = GetUserPostsOption | GetCommunityPostsOption | GetAllPostsOption;
 
-export async function getPosts(options: GetPostsOptions): Promise<ClientPost[]> {
-  const session = await getAuthSession();
-  const { page = 0 } = options;
+export async function getPosts(options: GetPostsOptions): Promise<GetPostsResponse> {
+  try {
+    const session = await getAuthSession();
+    const { page = 0 } = options;
 
-  let whereClause = {};
-  if ('username' in options) {
-    const { username } = options;
-    whereClause = {
-      author: {
-        username,
-      },
-    };
-  } else if ('communityName' in options) {
-    const { communityName } = options;
-    whereClause = {
-      subnexus: {
-        name: communityName,
-      },
-    };
-  }
+    let whereClause = {};
+    if ('username' in options) {
+      const { username } = options;
+      whereClause = {
+        author: {
+          username,
+        },
+      };
+    } else if ('communityName' in options) {
+      const { communityName } = options;
+      whereClause = {
+        subnexus: {
+          name: communityName,
+        },
+      };
+    }
 
-  const posts = await prisma.post.findMany({
-    where: whereClause,
-    select: {
-      id: true,
-      title: true,
-      content: true,
-      createdAt: true,
-      updatedAt: true,
-      image: true,
-      votes: true,
-      subnexus: {
-        select: {
-          name: true,
+    const posts = await prisma.post.findMany({
+      where: whereClause,
+      select: {
+        id: true,
+        title: true,
+        content: true,
+        createdAt: true,
+        updatedAt: true,
+        image: true,
+        votes: true,
+        authorId: true,
+        subnexusId: true,
+        subnexus: {
+          select: {
+            name: true,
+          },
+        },
+        author: {
+          select: {
+            id: true,
+            username: true,
+            image: true,
+          },
         },
       },
-      author: {
-        select: {
-          id: true,
-          username: true,
-          image: true,
-        },
+      orderBy: {
+        createdAt: 'desc',
       },
-    },
-    orderBy: {
-      createdAt: 'desc',
-    },
-    skip: page * INFINITE_SCROLL_POST_TAKE,
-    take: INFINITE_SCROLL_POST_TAKE,
-  });
+      skip: page * INFINITE_SCROLL_POST_TAKE,
+      take: INFINITE_SCROLL_POST_TAKE,
+    });
 
-  const postsWithVoteCount = posts.map((post) => {
-    let voteCount = 0;
-    let currentUserVote = null;
+    const postsWithVoteCount = posts.map((post) => {
+      let voteCount = 0;
+      let currentUserVote = null;
 
-    post.votes.forEach((vote) => {
-      voteCount += vote.type === 'UP' ? 1 : -1;
-      if (session && vote.userId === session.user.id) {
-        currentUserVote = vote.type;
-      }
+      post.votes.forEach((vote) => {
+        voteCount += vote.type === 'UP' ? 1 : -1;
+        if (session && vote.userId === session.user.id) {
+          currentUserVote = vote.type;
+        }
+      });
+
+      return {
+        ...post,
+        voteCount,
+        currentUserVote,
+      };
     });
 
     return {
-      ...post,
-      voteCount,
-      currentUserVote,
+      status: 200,
+      data: postsWithVoteCount,
     };
-  });
-
-  return postsWithVoteCount as ClientPost[];
+  } catch (e) {
+    return {
+      status: 400,
+      data: [],
+    };
+  }
 }
 
 export async function createCommunityPost({ data }: CreateCommunityPostOptions) {

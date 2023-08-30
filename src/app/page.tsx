@@ -5,7 +5,7 @@ import { HomeIcon } from '@heroicons/react/20/solid';
 import Link from 'next/link';
 
 export default async function Home() {
-  const posts = await getPosts({});
+  const { data: posts } = await getPosts({});
 
   return (
     <div className="mobileContainer sm:container">
