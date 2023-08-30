@@ -6,7 +6,7 @@ import { Textarea } from './ui/Textarea';
 import { Button } from './ui/Button';
 import { toast } from '../hooks/use-toast';
 import { useRouter } from 'next/navigation';
-import { createCommunityPost } from '@/lib/actions/dbActions';
+import { createCommunityPost } from '@/lib/actions/posts/actions';
 
 interface EditorProps {
   subnexusName: string;
