@@ -1,11 +1,10 @@
 'use client';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Command, CommandGroup, CommandInput, CommandItem, CommandList } from './ui/command';
 import { Subnexus } from '@prisma/client';
 import Link from 'next/link';
 import useOutsideClick from '@/hooks/use-outside-click';
 import { debounce } from 'lodash';
-import { nanoid } from 'nanoid';
 
 const SearchBar = () => {
   const [input, setInput] = useState('');
@@ -44,7 +43,7 @@ const SearchBar = () => {
         }}
       />
       {searchResults && searchResults.length > 0 ? (
-        <CommandList className="absolute bg-white top-full w-full shadow rounded-b-lg">
+        <CommandList className="absolute bg-white dark:bg-zinc-950 top-full w-full shadow rounded-b-lg">
           <CommandGroup heading="Communities">
             {searchResults.map((community) => (
               <CommandItem key={community.id} value={community.name}>
@@ -59,7 +58,7 @@ const SearchBar = () => {
       ) : null}
 
       {searchResults && searchResults.length === 0 && input !== '' && (
-        <CommandList className="absolute bg-white top-full w-full shadow rounded-b-lg">
+        <CommandList className="absolute bg-white dark:bg-zinc-950 top-full w-full shadow rounded-b-lg">
           <div className="text-base p-3 flex justify-center">No Results Found</div>
         </CommandList>
       )}
