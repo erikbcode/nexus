@@ -2,7 +2,7 @@
 import { timeSince } from '@/lib/utils';
 import Link from 'next/link';
 import React, { useState } from 'react';
-import { ArrowBigUp, ArrowBigDown } from 'lucide-react';
+import { ArrowBigUp, ArrowBigDown, Loader } from 'lucide-react';
 import { Button } from './ui/Button';
 import { VoteType } from '@prisma/client';
 import { updateVote } from '@/lib/actions/posts/actions';
@@ -85,17 +85,12 @@ const VoteDisplay = ({ initialVoteCount, initialVote, postId }: VoteDisplayProps
     setIsLoading(true);
     const res = await updateVote({ data: { voteType, postId } });
     const variant = res.status === 200 ? 'default' : 'destructive';
-    if (res.status !== 200) {
-      // Vote was not successful, so don't change state
-      return toast({
-        title: res.data.title,
-        description: res.data.description,
-        variant,
-      });
+    if (res.status === 200) {
+      // Vote was successful, so update state
+      setCurrentVote(res.data.newVoteType);
+      setVoteCount(voteCount + res.data.updateCount!);
     }
-    // Vote was successful, so update state
-    setCurrentVote(res.data.newVoteType);
-    setVoteCount(voteCount + res.data.updateCount!);
+
     setIsLoading(false);
 
     return toast({
@@ -127,7 +122,7 @@ const VoteDisplay = ({ initialVoteCount, initialVote, postId }: VoteDisplayProps
         >
           <ArrowBigUp className={`${upvoteClass}`} />
         </Button>
-        <p className="font-semibold">{voteCount}</p>
+        {isLoading ? <Loader className="animate-spin" /> : <p className="font-semibold">{voteCount}</p>}
         <Button
           disabled={isLoading}
           variant="ghost"
