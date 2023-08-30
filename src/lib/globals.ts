@@ -1,1 +1,1 @@
-export const postTake = 5;
+export const INFINITE_SCROLL_POST_TAKE = 5;
