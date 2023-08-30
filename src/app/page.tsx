@@ -1,11 +1,11 @@
-import GeneralPostList from '@/components/GeneralPostList';
+import InfinitePostFeed from '@/components/InfinitePostFeed';
 import { buttonVariants } from '@/components/ui/Button';
-import { fetchDefaultPosts } from '@/lib/actions/dbActions';
+import { getPosts } from '@/lib/actions/posts/actions';
 import { HomeIcon } from '@heroicons/react/20/solid';
 import Link from 'next/link';
 
 export default async function Home() {
-  const posts = await fetchDefaultPosts({});
+  const posts = await getPosts({});
 
   return (
     <div className="mobileContainer sm:container">
@@ -14,7 +14,7 @@ export default async function Home() {
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="md:col-span-2">
-          <GeneralPostList initialPosts={posts} />
+          <InfinitePostFeed initialPosts={posts} />
         </div>
         <div className="border overflow-hidden border-zinc-200 dark:border-zinc-800 h-fit rounded-md order-first md:order-last">
           <div className="bg-emerald-200 dark:bg-emerald-600 flex gap-2 items-center px-6 py-4">
