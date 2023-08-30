@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { ArrowBigUp, ArrowBigDown } from 'lucide-react';
 import { Button } from './ui/Button';
 import { VoteType } from '@prisma/client';
-import { updateVote } from '@/lib/actions/dbActions';
+import { updateVote } from '@/lib/actions/posts/actions';
 import { toast } from '@/hooks/use-toast';
 
 type Post = {
