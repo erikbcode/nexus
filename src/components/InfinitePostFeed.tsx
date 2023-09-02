@@ -47,7 +47,7 @@ const InfinitePostFeed = ({ initialPosts, username, communityName }: InfinitePos
   return (
     <div className="flex flex-col gap-4 w-full my-4">
       {posts.map((post) => {
-        return <PostCard initialVote={post.currentUserVote} key={post.id} {...post} />;
+        return <PostCard key={post.id} {...post} />;
       })}
       {/* loading spinner */}
 
