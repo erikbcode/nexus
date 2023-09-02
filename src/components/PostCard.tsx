@@ -5,7 +5,6 @@ import React from 'react';
 import { buttonVariants } from './ui/Button';
 import { ChatBubbleLeftIcon } from '@heroicons/react/20/solid';
 import { ClientPost } from '@/types/db';
-import { useRouter } from 'next/navigation';
 import VoteDisplay from './VoteDisplay';
 
 const PostCard = ({
@@ -74,7 +73,7 @@ const PostCard = ({
 
         <div className="mt-2 flex flex-row">
           <div className="contents md:hidden">
-            <VoteDisplay postId={id} initialVoteCount={voteCount} initialVote={currentUserVote} smallScreen={true} />
+            <VoteDisplay postId={id} initialVoteCount={voteCount} initialVote={currentUserVote} />
           </div>
           <Link
             className={buttonVariants({
