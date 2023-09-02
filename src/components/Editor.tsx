@@ -15,19 +15,22 @@ interface EditorProps {
 const Editor = ({ subnexusName }: EditorProps) => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const handleMutation = async () => {
+    setIsLoading(true);
     const res = await createCommunityPost({ data: { title, content, subnexusName } });
     const variant = res.status === 200 ? 'default' : 'destructive';
     if (res.status === 200) {
       router.push(`/n/${subnexusName}`);
     }
-    return toast({
+    toast({
       title: res.data.title,
       description: res.data.description,
       variant,
     });
+    setIsLoading(false);
   };
 
   return (
@@ -40,7 +43,7 @@ const Editor = ({ subnexusName }: EditorProps) => {
         <Label className="text-xl">Post Content</Label>
         <Textarea placeholder="Content" onChange={(e) => setContent(e.target.value)} />
       </div>
-      <Button className="w-fit" onClick={() => handleMutation()}>
+      <Button className="w-fit" onClick={() => handleMutation()} disabled={isLoading}>
         Submit Post
       </Button>
     </div>
