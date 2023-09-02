@@ -45,7 +45,7 @@ const InfinitePostFeed = ({ initialPosts, username, communityName }: InfinitePos
   }, [inView]);
 
   return (
-    <div className="flex flex-col gap-4 w-full my-4">
+    <div className="flex flex-col gap-4 w-full">
       {posts.map((post) => {
         return <PostCard key={post.id} {...post} />;
       })}
