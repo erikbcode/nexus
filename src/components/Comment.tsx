@@ -73,7 +73,7 @@ const Comment = ({ comment, level = 0 }: CommentProps) => {
         </div>
       </div>
       {showInput && (
-        <div className="w-full">
+        <div className="w-full mt-2">
           <div className="flex gap-2 flex-col">
             <h3 className="text-sm">Post your comment</h3>
             <Textarea value={input} onChange={(e) => setInput(e.target.value)} placeholder="Enter your comment..." />
