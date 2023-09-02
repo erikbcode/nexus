@@ -34,13 +34,13 @@ const Page = async ({ params }: PostPageParams) => {
           <VoteDisplay postId={data!.id} initialVoteCount={data!.voteCount} initialVote={data!.currentUserVote} />
         </div>
         <div className="border p-4 gap-20 rounded-md flex flex-col justify-between col-span-9">
-          <div className="min-h-0 flex flex-col break-words">
+          <div className="min-h-0 flex flex-col">
             <small className="text-gray-500">
               Posted by <Link href={`/u/${data!.author.username}`}>u/{data!.author.username}</Link>
             </small>
             <h2 className="text-2xl font-semibold mt-2">{data!.title}</h2>
             <hr className="my-4 border-gray-300" />
-            <p className="max-h-none text-base break-all">{data!.content}</p>
+            <p className="max-h-none text-base break-words">{data!.content}</p>
             <div className="self-start flex md:hidden mt-12">
               <VoteDisplay postId={data!.id} initialVoteCount={data!.voteCount} initialVote={data!.currentUserVote} />
             </div>
