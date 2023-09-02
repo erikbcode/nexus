@@ -12,9 +12,11 @@ type CreateCommentProps = {
 
 const CreateComment = ({ postId, replyToId }: CreateCommentProps) => {
   const [input, setInput] = useState('');
-  const [isOpen, setIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handlePost = async () => {
+    setIsLoading(true);
+    setInput('');
     const data = {
       text: input,
       postId,
@@ -22,18 +24,19 @@ const CreateComment = ({ postId, replyToId }: CreateCommentProps) => {
     };
     const res = await createComment({ data });
     const variant = res.status === 200 ? 'default' : 'destructive';
-    return toast({
+    toast({
       title: res.data.title,
       description: res.data.description,
       variant,
     });
+    setIsLoading(false);
   };
 
   return (
     <div className="space-y-2 my-4">
       <h3 className="text-sm">Post your comment</h3>
       <Textarea value={input} onChange={(e) => setInput(e.target.value)} placeholder="Enter your comment..." />
-      <Button onClick={() => handlePost()} className="px-4 float-right">
+      <Button onClick={() => handlePost()} className="px-4 float-right" disabled={isLoading}>
         Post
       </Button>
     </div>
