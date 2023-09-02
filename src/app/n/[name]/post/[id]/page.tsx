@@ -33,7 +33,7 @@ const Page = async ({ params }: PostPageParams) => {
         <div className="self-start hidden md:flex mt-12 w-fit">
           <VoteDisplay postId={data!.id} initialVoteCount={data!.voteCount} initialVote={data!.currentUserVote} />
         </div>
-        <div className="border p-4 gap-20 rounded-md flex flex-col justify-between min-w-full w-full col-span-9">
+        <div className="border p-4 gap-20 rounded-md flex flex-col justify-between col-span-9">
           <div className="min-h-0 flex flex-col break-words">
             <small className="text-gray-500">
               Posted by <Link href={`/u/${data!.author.username}`}>u/{data!.author.username}</Link>
