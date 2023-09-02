@@ -8,8 +8,77 @@ import { z } from 'zod';
 import { VoteValidator } from '@/lib/validators/vote';
 import { VoteType } from '@prisma/client';
 import { revalidatePath, revalidateTag } from 'next/cache';
-import { ClientPost } from '@/types/db';
-import { GetPostsResponse } from '@/types/actions/posts/action-types';
+import { GetPostsResponse, GetSinglePostResponse } from '@/types/actions/posts/action-types';
+
+const postSelectClause = {
+  id: true,
+  title: true,
+  content: true,
+  createdAt: true,
+  updatedAt: true,
+  image: true,
+  votes: true,
+  authorId: true,
+  subnexusId: true,
+  subnexus: {
+    select: {
+      name: true,
+    },
+  },
+  author: {
+    select: {
+      id: true,
+      username: true,
+      image: true,
+    },
+  },
+  comments: true,
+};
+
+export async function getSinglePost(id: string): Promise<GetSinglePostResponse> {
+  try {
+    const session = await getAuthSession();
+
+    const post = await prisma.post.findFirst({
+      where: {
+        id,
+      },
+      select: postSelectClause,
+    });
+
+    // If post doesn't exist, throw an error
+    if (!post) {
+      throw new Error('Post not found');
+    }
+
+    let voteCount = 0;
+    let currentUserVote = null;
+
+    post?.votes.forEach((vote) => {
+      voteCount += vote.type === 'UP' ? 1 : -1;
+      if (vote.userId === session?.user.id) {
+        currentUserVote = vote.type;
+      }
+    });
+
+    const commentCount = post.comments.length;
+
+    return {
+      status: 200,
+      data: {
+        ...post,
+        commentCount,
+        voteCount,
+        currentUserVote,
+      },
+    };
+  } catch (e) {
+    return {
+      status: 400,
+      data: null,
+    };
+  }
+}
 
 type GetUserPostsOption = { username: string; page?: number };
 type GetCommunityPostsOption = { communityName: string; page?: number };
@@ -40,29 +109,7 @@ export async function getPosts(options: GetPostsOptions): Promise<GetPostsRespon
 
     const posts = await prisma.post.findMany({
       where: whereClause,
-      select: {
-        id: true,
-        title: true,
-        content: true,
-        createdAt: true,
-        updatedAt: true,
-        image: true,
-        votes: true,
-        authorId: true,
-        subnexusId: true,
-        subnexus: {
-          select: {
-            name: true,
-          },
-        },
-        author: {
-          select: {
-            id: true,
-            username: true,
-            image: true,
-          },
-        },
-      },
+      select: postSelectClause,
       orderBy: {
         createdAt: 'desc',
       },
@@ -70,9 +117,17 @@ export async function getPosts(options: GetPostsOptions): Promise<GetPostsRespon
       take: INFINITE_SCROLL_POST_TAKE,
     });
 
-    const postsWithVoteCount = posts.map((post) => {
+    if (!posts) {
+      return {
+        status: 404,
+        data: [],
+      };
+    }
+
+    const postsWithCounts = posts.map((post) => {
       let voteCount = 0;
       let currentUserVote = null;
+      const commentCount = post.comments.length;
 
       post.votes.forEach((vote) => {
         voteCount += vote.type === 'UP' ? 1 : -1;
@@ -85,12 +140,13 @@ export async function getPosts(options: GetPostsOptions): Promise<GetPostsRespon
         ...post,
         voteCount,
         currentUserVote,
+        commentCount,
       };
     });
 
     return {
       status: 200,
-      data: postsWithVoteCount,
+      data: postsWithCounts,
     };
   } catch (e) {
     return {
