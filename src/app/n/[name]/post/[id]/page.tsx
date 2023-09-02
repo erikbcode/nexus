@@ -28,12 +28,12 @@ const Page = async ({ params }: PostPageParams) => {
 
   return (
     <div className="flex flex-col gap-8 min-h-screen">
-      <div className="grid grid-flow-col grid-cols-[auto, 1fr] place-items-center">
+      <div className="grid grid-flow-col grid-cols-1 md:grid-cols-10">
         {/* Vote display */}
-        <div className="self-start hidden md:flex mt-12">
+        <div className="self-start hidden md:flex mt-12 w-fit">
           <VoteDisplay postId={data!.id} initialVoteCount={data!.voteCount} initialVote={data!.currentUserVote} />
         </div>
-        <div className="border p-4 gap-20 rounded-md flex flex-col justify-between">
+        <div className="border p-4 gap-20 rounded-md flex flex-col justify-between min-w-full w-full col-span-9">
           <div className="min-h-0 flex flex-col break-words">
             <small className="text-gray-500">
               Posted by <Link href={`/u/${data!.author.username}`}>u/{data!.author.username}</Link>
