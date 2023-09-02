@@ -17,7 +17,6 @@ const SearchBar = () => {
       const res = await fetch(`/api/search?query=${search}`);
       const { data } = await res.json();
       setSearchResults(data);
-      console.log('data: ', data);
     }, 300),
   ).current;
 
