@@ -1,14 +1,12 @@
 'use client';
 import { timeSince } from '@/lib/utils';
 import Link from 'next/link';
-import React, { useState } from 'react';
-import { ArrowBigUp, ArrowBigDown, Loader, MessageSquare } from 'lucide-react';
-import { Button, buttonVariants } from './ui/Button';
+import React from 'react';
+import { buttonVariants } from './ui/Button';
 import { ChatBubbleLeftIcon } from '@heroicons/react/20/solid';
 import { ClientPost } from '@/types/db';
 import { useRouter } from 'next/navigation';
 import VoteDisplay from './VoteDisplay';
-import { ChatBubbleIcon } from '@radix-ui/react-icons';
 
 const PostCard = ({
   id,
@@ -21,8 +19,6 @@ const PostCard = ({
   currentUserVote,
   commentCount,
 }: ClientPost) => {
-  const router = useRouter();
-
   const formatNumber = (num: number) => {
     if (num >= 1000000000) {
       return (num / 1000000000).toFixed(1).replace(/\.0$/, '') + 'G';
