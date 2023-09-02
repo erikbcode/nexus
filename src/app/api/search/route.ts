@@ -4,7 +4,6 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function GET(req: NextRequest) {
   try {
     const query = req.nextUrl.searchParams.get('query') || '';
-    console.log('query: ', query);
     const data = await prisma.subnexus.findMany({
       where: {
         name: {
