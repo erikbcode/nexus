@@ -1,4 +1,4 @@
-import { User, Post, Subnexus, Vote } from '@prisma/client';
+import { User, Post, Subnexus, Vote, Comment, CommentVote } from '@prisma/client';
 
 export type ClientUser = {
   username: string | null;
@@ -14,4 +14,20 @@ export type ClientPost = Post & {
   votes: Vote[];
   voteCount: number;
   currentUserVote: VoteType | null;
+  comments: Comment[];
+  commentCount: number;
+};
+
+type NestedComment = {
+  id: string;
+  text: string;
+  postId: string;
+  author: {
+    username: string | null;
+    image: string | null;
+  };
+  replies: NestedComment[];
+  votes: CommentVote[];
+  currentUserVote: VoteType;
+  voteCount: number;
 };
