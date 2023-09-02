@@ -58,6 +58,9 @@ const Page = async ({ params }: SubnexusPageProps) => {
 
   return (
     <div className="flex gap-8 flex-col">
+      <h1 className="text-3xl md:text-4xl font-semibold flex items-center justify-center sm:justify-start">
+        n/{subnexus.name}
+      </h1>
       <CreatePostForm session={session} />
       <ul role="list" className="grid grid-cols-1 gap-y-8">
         <InfinitePostFeed initialPosts={initialPosts} communityName={params.name} />
