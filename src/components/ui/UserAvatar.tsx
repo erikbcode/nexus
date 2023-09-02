@@ -11,7 +11,7 @@ interface UserAvatarProps {
 
 const UserAvatar = ({ user, large, small }: UserAvatarProps) => {
   const username = user.username ? user.username : 'username';
-  const sizeClasses = large ? 'w-20 h-20' : small ? 'w-8 h-8' : 'w-12 h-12';
+  const sizeClasses = large ? 'w-20 h-20' : small ? 'w-6 h-6' : 'w-12 h-12';
 
   return (
     <Avatar className={sizeClasses}>
