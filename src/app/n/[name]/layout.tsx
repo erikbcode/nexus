@@ -74,7 +74,7 @@ const Layout = async ({ children, params }: SubnexusLayoutProps) => {
   }
 
   return (
-    <div className="mobileContainer sm:container ">
+    <div className="mobileContainer sm:container mt-16">
       <div className="grid grid-cols-1 md:grid-cols-3 md:gap-8 w-full">
         <div className="col-span-2 w-full">{children}</div>
         <div className="overflow-hidden order-first mb-8 md:mb-0 md:order-last rounded-md border h-fit w-full">
