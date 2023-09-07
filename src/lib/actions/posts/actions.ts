@@ -184,6 +184,23 @@ export async function createCommunityPost({ data }: CreateCommunityPostOptions) 
       };
     }
 
+    const isMember = await prisma.subscription.findFirst({
+      where: {
+        userId: session.user.id,
+        subnexusId: subnexus.id,
+      },
+    });
+
+    if (!isMember) {
+      return {
+        status: 403,
+        data: {
+          title: 'You are not a member.',
+          description: 'You must first join this community in order to post to it.',
+        },
+      };
+    }
+
     await prisma.post.create({
       data: {
         title,
