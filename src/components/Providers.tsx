@@ -1,10 +1,10 @@
 'use client';
 
-import { ThemeProvider } from 'next-themes';
-import React, { useEffect, useState } from 'react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { SessionProvider } from 'next-auth/react';
-import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
+import { ThemeProvider } from 'next-themes';
 import { Next13ProgressBar } from 'next13-progressbar';
+import React from 'react';
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
   const queryClient = new QueryClient();
@@ -13,7 +13,7 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
     <SessionProvider>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider attribute="class">
-          <Next13ProgressBar height="4px" color="#157bdb" options={{ showSpinner: true }} showOnShallow />
+          <Next13ProgressBar height="4px" color="#157bdb" options={{ showSpinner: false }} showOnShallow />
           {children}
         </ThemeProvider>
       </QueryClientProvider>
