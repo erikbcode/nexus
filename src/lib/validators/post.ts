@@ -7,3 +7,10 @@ export const PostValidator = z.object({
 });
 
 export type CreatePostPayload = z.infer<typeof PostValidator>;
+
+export const DeletePostValidator = z.object({
+  postId: z.string(),
+  authorId: z.string(),
+});
+
+export type DeletePostPayload = z.infer<typeof DeletePostValidator>;

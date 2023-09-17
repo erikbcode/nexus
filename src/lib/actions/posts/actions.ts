@@ -1,14 +1,15 @@
 'use server';
-import { CreateCommunityPostOptions, UpdateVoteOptions } from '@/types/actions/actions';
 import { getAuthSession } from '@/lib/auth';
 import { prisma } from '@/lib/db';
 import { INFINITE_SCROLL_POST_TAKE } from '@/lib/globals';
-import { PostValidator } from '@/lib/validators/post';
-import { z } from 'zod';
+import { DeletePostValidator, PostValidator } from '@/lib/validators/post';
 import { VoteValidator } from '@/lib/validators/vote';
-import { VoteType } from '@prisma/client';
-import { revalidatePath, revalidateTag } from 'next/cache';
+import { CreateCommunityPostOptions, DeletePostOptions, UpdateVoteOptions } from '@/types/actions/actions';
 import { GetPostsResponse, GetSinglePostResponse } from '@/types/actions/posts/action-types';
+import { VoteType } from '@prisma/client';
+import { revalidatePath } from 'next/cache';
+import { z } from 'zod';
+import { deleteCommentAndReplies } from './comments/actions';
 
 const postSelectClause = {
   id: true,
@@ -335,7 +336,7 @@ export async function updateVote({ data }: UpdateVoteOptions) {
     revalidatePath('/u/[username]');
     return {
       status: 200,
-      data: { title: 'Success.', description: 'Vote registered', newVoteType: voteType, updateCount },
+      data: { title: 'Success.', description: 'Vote registered.', newVoteType: voteType, updateCount },
     };
   } catch (e) {
     if (e instanceof z.ZodError) {
@@ -355,6 +356,81 @@ export async function updateVote({ data }: UpdateVoteOptions) {
         title: 'Vote Failed.',
         description: 'Could not vote at this time.',
         updateCount: undefined,
+      },
+    };
+  }
+}
+
+export async function deletePost({ data }: DeletePostOptions) {
+  try {
+    const { postId, authorId } = DeletePostValidator.parse(data);
+
+    const session = await getAuthSession();
+
+    if (!session?.user) {
+      return {
+        status: 401,
+        data: { title: 'Login required.', description: 'You need to be logged in to do that.' },
+      };
+    }
+
+    if (session.user.id !== authorId) {
+      return {
+        status: 403,
+        data: { title: 'Delete failed.', description: 'You cannot delete a post that you did not create.' },
+      };
+    }
+
+    // Check if post exists and if it doesn't, return an error
+    const post = await prisma.post.findUnique({
+      where: {
+        id: postId,
+      },
+      select: {
+        id: true,
+        comments: true,
+      },
+    });
+
+    if (!post) {
+      return {
+        status: 404,
+        data: {
+          title: 'Post not found.',
+          description: 'That post does not exist',
+        },
+      };
+    }
+
+    // Delete associated comments first
+    for (const comment of post.comments) {
+      await deleteCommentAndReplies({ commentId: comment.id });
+    }
+
+    await prisma.post.delete({
+      where: {
+        id: postId,
+      },
+    });
+
+    revalidatePath('/');
+    revalidatePath('/n/[name]');
+    revalidatePath('/u/[username]');
+
+    return {
+      status: 200,
+      data: {
+        title: 'Success.',
+        description: 'Successfully deleted post.',
+      },
+    };
+  } catch (e) {
+    console.log(e);
+    return {
+      status: 400,
+      data: {
+        title: 'Delete failed.',
+        description: 'Failed to delete post. Please try again later.',
       },
     };
   }

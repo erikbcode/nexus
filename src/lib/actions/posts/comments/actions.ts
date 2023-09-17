@@ -2,7 +2,7 @@
 import { getAuthSession } from '@/lib/auth';
 import { prisma } from '@/lib/db';
 import { CreateCommentValidator } from '@/lib/validators/comment';
-import { CommentVoteValidator, VoteValidator } from '@/lib/validators/vote';
+import { CommentVoteValidator } from '@/lib/validators/vote';
 import {
   CreateCommentOptions,
   CreateCommentResponse,
@@ -251,5 +251,49 @@ export async function updateCommentVote({ data }: UpdateCommentVoteOptions) {
         updateCount: undefined,
       },
     };
+  }
+}
+
+type DeleteCommentAndRepliesOptions = {
+  commentId: string;
+};
+
+export async function deleteCommentAndReplies({ commentId }: DeleteCommentAndRepliesOptions) {
+  try {
+    // Find the comment by ID
+    const comment = await prisma.comment.findUnique({
+      where: {
+        id: commentId,
+      },
+      include: {
+        replies: true,
+      },
+    });
+
+    if (!comment) {
+      return {
+        status: 400,
+        data: {
+          title: 'Delete failed.',
+          description: 'Comment does not exist.',
+        },
+      };
+    }
+
+    // Recursively delete replies
+    for (const reply of comment.replies) {
+      await deleteCommentAndReplies({ commentId: reply.id });
+    }
+
+    // Delete the comment itself
+    await prisma.comment.delete({
+      where: {
+        id: commentId,
+      },
+    });
+
+    console.log(`Comment ${commentId} and its replies deleted successfully`);
+  } catch (error) {
+    console.error('Error deleting comment and replies:', error);
   }
 }

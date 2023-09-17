@@ -1,7 +1,5 @@
 import { VoteType } from '@prisma/client';
 
-
-
 export interface CreateCommunityPostOptions {
   data: {
     title: string;
@@ -31,5 +29,12 @@ export interface UpdateVoteResponse {
     title: string;
     description: string;
     newVoteType: 'UP' | 'DOWN' | undefined;
+  };
+}
+
+export interface DeletePostOptions {
+  data: {
+    postId: string;
+    authorId: string;
   };
 }

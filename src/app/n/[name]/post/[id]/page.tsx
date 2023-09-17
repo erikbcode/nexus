@@ -1,11 +1,10 @@
 import CommentSection from '@/components/CommentSection';
+import DeletePostButton from '@/components/DeletePostButton';
 import VoteDisplay from '@/components/VoteDisplay';
-import { Button } from '@/components/ui/Button';
-import { Textarea } from '@/components/ui/Textarea';
 import { getSinglePost } from '@/lib/actions/posts/actions';
+import { getAuthSession } from '@/lib/auth';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import React from 'react';
 
 type PostPageParams = {
   params: {
@@ -14,6 +13,7 @@ type PostPageParams = {
 };
 
 const Page = async ({ params }: PostPageParams) => {
+  const session = await getAuthSession();
   const post = await getSinglePost(params.id);
 
   const { data } = post;
@@ -27,7 +27,7 @@ const Page = async ({ params }: PostPageParams) => {
   }
 
   return (
-    <div className="flex flex-col gap-8 min-h-screen">
+    <div className="flex flex-col gap-8">
       <div className="grid grid-flow-col grid-cols-1 md:grid-cols-10">
         {/* Vote display */}
         <div className="self-start hidden md:flex mt-12 w-fit">
@@ -35,9 +35,12 @@ const Page = async ({ params }: PostPageParams) => {
         </div>
         <div className="border p-4 gap-20 rounded-md flex flex-col justify-between col-span-9">
           <div className="min-h-0 flex flex-col">
-            <small className="text-gray-500">
-              Posted by <Link href={`/u/${data!.author.username}`}>u/{data!.author.username}</Link>
-            </small>
+            <div className="flex justify-between">
+              <small className="text-gray-500">
+                Posted by <Link href={`/u/${data!.author.username}`}>u/{data!.author.username}</Link>
+              </small>
+              {data?.authorId === session?.user.id && <DeletePostButton postId={data!.id} authorId={data!.authorId} />}
+            </div>
             <h2 className="text-2xl font-semibold mt-2">{data!.title}</h2>
             <hr className="my-4 border-gray-300" />
             <p className="max-h-none text-base break-words">{data!.content}</p>
