@@ -1,11 +1,10 @@
 'use client';
 import { timeSince } from '@/lib/utils';
-import Link from 'next/link';
-import React from 'react';
-import { buttonVariants } from './ui/Button';
-import { ChatBubbleLeftIcon } from '@heroicons/react/20/solid';
 import { ClientPost } from '@/types/db';
+import { ChatBubbleLeftIcon } from '@heroicons/react/20/solid';
+import Link from 'next/link';
 import VoteDisplay from './VoteDisplay';
+import { buttonVariants } from './ui/Button';
 
 const PostCard = ({
   id,
@@ -82,6 +81,7 @@ const PostCard = ({
               size: 'sm',
             })}
             href={`/n/${subnexus.name}/post/${id}`}
+            scroll={true}
           >
             <ChatBubbleLeftIcon className="w-4 h-4" />
             <span className="text-xs font-semibold">{formatNumber(commentCount)}</span>
