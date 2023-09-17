@@ -1,10 +1,9 @@
-import { prisma } from '@/lib/db';
-import React from 'react';
-import { notFound } from 'next/navigation';
 import CreatePostForm from '@/components/CreatePostForm';
-import { getAuthSession } from '@/lib/auth';
-import { getPosts } from '@/lib/actions/posts/actions';
 import InfinitePostFeed from '@/components/InfinitePostFeed';
+import { getPosts } from '@/lib/actions/posts/actions';
+import { getAuthSession } from '@/lib/auth';
+import { prisma } from '@/lib/db';
+import { notFound } from 'next/navigation';
 
 interface SubnexusPageProps {
   params: {
