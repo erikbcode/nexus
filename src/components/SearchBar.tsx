@@ -1,10 +1,10 @@
 'use client';
-import React, { useEffect, useRef, useState } from 'react';
-import { Command, CommandGroup, CommandInput, CommandItem, CommandList } from './ui/command';
-import { Subnexus } from '@prisma/client';
-import Link from 'next/link';
 import useOutsideClick from '@/hooks/use-outside-click';
+import { Subnexus } from '@prisma/client';
 import { debounce } from 'lodash';
+import Link from 'next/link';
+import { useEffect, useRef, useState } from 'react';
+import { Command, CommandGroup, CommandInput, CommandItem, CommandList } from './ui/command';
 
 const SearchBar = () => {
   const [input, setInput] = useState('');
@@ -45,8 +45,8 @@ const SearchBar = () => {
         <CommandList className="absolute bg-white dark:bg-zinc-950 top-full w-full shadow rounded-b-lg">
           <CommandGroup heading="Communities">
             {searchResults.map((community) => (
-              <CommandItem key={community.id} value={community.name}>
-                <Link href={`/n/${community.name}`}>
+              <CommandItem key={community.id} value={community.name} className="px-0 py-0 my-1">
+                <Link href={`/n/${community.name}`} className="w-full px-2 py-2">
                   <span className="font-semibold pr-1">n/</span>
                   {community.name}
                 </Link>
