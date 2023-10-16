@@ -1,5 +1,5 @@
 import CommentSection from '@/components/CommentSection';
-import DeletePostButton from '@/components/DeletePostButton';
+import PostOptions from '@/components/PostOptions';
 import VoteDisplay from '@/components/VoteDisplay';
 import { getSinglePost } from '@/lib/actions/posts/actions';
 import { getAuthSession } from '@/lib/auth';
@@ -22,7 +22,7 @@ const Page = async ({ params }: PostPageParams) => {
     throw new Error('Error when fetching post');
   }
 
-  if (!post) {
+  if (!post || !data) {
     return notFound();
   }
 
@@ -31,15 +31,20 @@ const Page = async ({ params }: PostPageParams) => {
       <div className="grid grid-flow-col grid-cols-1 md:grid-cols-10">
         {/* Vote display */}
         <div className="self-start hidden md:flex mt-12 w-fit">
-          <VoteDisplay postId={data!.id} initialVoteCount={data!.voteCount} initialVote={data!.currentUserVote} />
+          <VoteDisplay postId={data.id} initialVoteCount={data.voteCount} initialVote={data.currentUserVote} />
         </div>
         <div className="border p-4 gap-20 rounded-md flex flex-col justify-between col-span-9">
           <div className="min-h-0 flex flex-col">
             <div className="flex justify-between">
               <small className="text-gray-500">
-                Posted by <Link href={`/u/${data!.author.username}`}>u/{data!.author.username}</Link>
+                Posted by <Link href={`/u/${data.author.username}`}>u/{data.author.username}</Link>
               </small>
-              {data?.authorId === session?.user.id && <DeletePostButton postId={data!.id} authorId={data!.authorId} />}
+              <PostOptions
+                session={session}
+                authorId={data.authorId}
+                postId={data.id}
+                authorUsername={data.author.username!}
+              />
             </div>
             <h2 className="text-2xl font-semibold mt-2">{data!.title}</h2>
             <hr className="my-4 border-gray-300" />
