@@ -5,6 +5,7 @@ const nextConfig = {
     appDir: true,
     serverActions: true,
   },
+  optimizeFonts: false,
 };
 
 module.exports = nextConfig;
